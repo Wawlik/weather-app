@@ -2,25 +2,48 @@ import { defineStore } from 'pinia'
 
 export const useLocationStore = defineStore('location', {
     state: () => ({
-      location: {
-        latitude: null,
-        longitude: null,
-        city: '',
-        country: '',
-        error: null
-      }
+        location: {
+            latitude: null,
+            longitude: null,
+            city: '',
+            country: '',
+            error: null
+        },
+        //could've been Map
+        savedLocations: []
     }),
     actions: {
-      setLocation(params) {
-        console.log({params})
-        this.location = {
-          ...this.location,
-          ...params
-        }
-      },
-      setError(errorMessage) {
-        this.location.error = errorMessage
-      }
+        removeLocation() {
+            const name = `${this.location.city} ${this.location.country}`
+            const ind = this.savedLocations.findIndex(loc => loc.name === name)
+            if(~ind) {
+                this.savedLocations.splice(ind, 1);
+                console.log("Removed!", {name})
+            }
+        },
+        saveLocation() {
+            const name = `${this.location.city} ${this.location.country}`;
+            console.log({name})
+            const alreadySaved = this.savedLocations.some(
+                (item) =>
+                    item.name === name
+            )
+            if (!alreadySaved) {
+                this.savedLocations.push({ ...this.location, name });
+                console.log("Added!", {name})
+            } else {
+                console.warn('Already saved')
+            }
+        },
+        setLocation(params) {
+            console.log({ params })
+            this.location = {
+                ...this.location,
+                ...params
+            }
+        },
+        setError(errorMessage) {
+            this.location.error = errorMessage
+        },
     }
-  })
-  
+})

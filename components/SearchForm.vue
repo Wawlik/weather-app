@@ -1,8 +1,15 @@
 <template>
     <div class="search-wrapper">
-      <input v-model="query" type="text" @input="handleInput" placeholder="Введите город" />
-      <button @click="onSearch">search</button>
-      <button @click="onGetLocation">get location</button>
+      <input v-model="query" name="query" autocomplete="query" type="text" @input="handleInput" placeholder="Введите город" />
+      <button @click="onSearch">Search</button>
+      <button @click="onGetLocation">Get Location</button>
+      <ul v-if="results.length">
+        <li v-for="(item, index) in results" :key="index">
+          <NuxtLink :to="`/location/${item.name}?lat=${item.latitude}&lon=${item.longitude}&country=${item.country}`">
+            {{ item.name }} ({{ item.country }})
+          </NuxtLink>
+        </li>
+      </ul>
     </div>
   </template>
   
@@ -13,18 +20,25 @@
   import { useLocationStore } from '~/stores/location'
   
   const query = ref('')
+  const results = ref([])
+  
   const { coords, getLocation } = useLocation()
   const locationStore = useLocationStore()
   
   async function searchOnce() {
     if (!query.value) return
     try {
-      const geocodeData = await $fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${query.value}&count=1`)
-      if (!geocodeData?.results?.length) {
+      const geocodeData = await $fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${query.value}&count=5`)
+      if (!geocodeData.results || !geocodeData.results.length) {
+        results.value = []
         throw new Error('City not found')
       }
-      const { latitude, longitude, name, country } = geocodeData.results[0]
-      locationStore.setLocation({ latitude, longitude, city: name, country })
+      results.value = geocodeData.results.map(item => ({
+        latitude: item.latitude,
+        longitude: item.longitude,
+        name: item.name,
+        country: item.country
+      }))
     } catch (err) {
       locationStore.setError(err.message)
     }
@@ -56,6 +70,9 @@
   .search-wrapper {
     display: flex;
     gap: 4px;
+  }
+  li {
+    margin: 4px 0;
   }
   </style>
   
