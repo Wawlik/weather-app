@@ -8,5 +8,16 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: [
     '@pinia/nuxt'
-  ]
+  ],
+  vite: {
+    server: {
+      proxy: {
+        '/api': {
+          target: 'https://api.example.com',
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/api/, ''),
+        },
+      },
+    },
+  },
 })

@@ -44,13 +44,15 @@ import debounce from "lodash.debounce";
 import { useLocation } from "~/composables/useLocation";
 import { useLocationStore } from "~/stores/location";
 import { fetchCityByCoords } from "~/services/locationService";
+
 import { useRouter } from "vue-router";
 const router = useRouter();
 
 const query = ref("");
 const results = ref([]);
+const loadingLocation = ref(false)
 
-const { coords, getLocation } = useLocation();
+const { coords, getLocation, loading } = useLocation();
 const locationStore = useLocationStore();
 const dropdownVisible = ref(false);
 
@@ -88,25 +90,29 @@ function onSearch() {
 }
 
 function onGetLocation() {
+  if(loadingLocation.value) return;
+  loadingLocation.value = true;
   getLocation()
     .then(() => {
       if (coords.value) {
-        //move to composable
         fetchCityByCoords(coords.value.latitude, coords.value.longitude)
           .then((result) => {
-            //todo: doesn't work because it lacks api key
             router.push(
               `/location/${result.city}?lat=${coords.value.latitude}&lon=${coords.value.longitude}&country=${result.country}`
             );
           })
           .catch((err) => {
             console.error("Error fetching city:", err);
-          });
+          })
       }
     })
     .catch((err) => {
       console.error("Error getting location:", err);
-    });
+      console.warn("Try to search city manually")
+    })
+    .finally(()=>{
+      loadingLocation.value = false;
+    })
 }
 </script>
 
