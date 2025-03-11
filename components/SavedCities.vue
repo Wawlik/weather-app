@@ -1,13 +1,16 @@
 <template>
-  <div v-if="locationStore.savedLocations?.length" class="saved-cities-wrapper">
-    <NuxtLink
-      v-for="(item, index) in locationStore.savedLocations"
-      :to="`/location/${item.city}?lat=${item.latitude}&lon=${item.longitude}&country=${item.country}`"
-      :key="index"
-      class="saved-city link-reset"
-    >
-      {{ item.name }}
-    </NuxtLink>
+  <div v-if="locationStore.savedLocations?.length">
+    <h3 class="header">Saved Cities:</h3>
+    <div class="link-wrapper">
+      <NuxtLink
+        v-for="(item, index) in locationStore.savedLocations"
+        :to="`/location/${item.city}?lat=${item.latitude}&lon=${item.longitude}&country=${item.country}`"
+        :key="index"
+        class="link link-reset"
+      >
+        {{ item.name }}
+      </NuxtLink>
+    </div>
   </div>
 </template>
 
@@ -22,12 +25,15 @@ function remove(lat, lon) {
 </script>
 
 <style scoped>
-.saved-cities-wrapper {
+.header {
+  color: #FAF6F6;
+}
+.link-wrapper {
   display: flex;
   flex-flow: row wrap;
   gap: 8px;
 }
-.saved-city {
+.link {
   background-color: #2f80ed;
   color: #ffffff;
   padding: 10px 20px;
@@ -41,7 +47,7 @@ function remove(lat, lon) {
   margin: 0 auto;
 }
 
-.saved-city:hover {
+.link:hover {
   background-color: #1c5db1;
 }
 </style>

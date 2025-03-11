@@ -9,6 +9,7 @@
   background: linear-gradient(to bottom, #054bcb 0%, #80aeff 100%);
   padding: 30px 5%;
   box-sizing: border-box;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 </style>

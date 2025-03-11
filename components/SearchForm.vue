@@ -62,7 +62,6 @@ async function searchOnce() {
       setFocus(false);
       throw new Error("City not found");
     }
-
     setFocus(true);
     results.value = geocodeData.results.map((item) => ({
       latitude: item.latitude,
@@ -111,7 +110,7 @@ li {
 }
 
 .search {
-  width: clamp(200px, 600px, 90vw);
+  width: clamp(200px, 100%, 600px);
 }
 .search-wrapper {
   position: relative;

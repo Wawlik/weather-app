@@ -21,6 +21,10 @@ html, body {
   padding: 0;
   box-sizing: border-box;
 }
+p {
+  margin: 0;
+  padding: 0;
+}
 .layout, .page {
   width: 100%;
   height: 100%;

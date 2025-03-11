@@ -1,7 +1,7 @@
 <template>
   <div class="page search-page">
-    <SavedCities />
     <SearchForm />
+    <SavedCities />
   </div>
 </template>
 
