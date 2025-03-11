@@ -9,7 +9,6 @@
           <p class="date">{{ formatFullDate(weather.current.time) }}</p>
         </div>
         <button class="save-btn" @click="saveLocation">Save Location</button>
-        <button class="save-btn" @click="saveLocation">Save Location</button>
       </div>
 
       <div class="current-weather" v-if="weather.current">
