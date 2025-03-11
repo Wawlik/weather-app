@@ -155,7 +155,6 @@ const {
   error,
 } = useFetch(
   () => {
-    console.log({ lat, lon });
     if (!lat || !lon) return null;
     return "https://api.open-meteo.com/v1/forecast";
   },

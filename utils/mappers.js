@@ -23,7 +23,6 @@ export const transformWeatherData = (data) => {
             return null;
         })
         .filter(Boolean);
-    console.log({ cw: data.current_weather });
     const current = {
         temperature: data.current_weather.temperature ?? null,
         wind_speed: data.current_weather.windspeed ?? null,
@@ -31,7 +30,6 @@ export const transformWeatherData = (data) => {
         is_day: data.current_weather.is_day ?? null,
         time: data.current_weather.time ?? null,
     };
-    console.log({ dadily: data.daily });
     const dailyForecast = (data.daily.time || [])
         .slice(0, 3)
         .map((date, index) => ({
