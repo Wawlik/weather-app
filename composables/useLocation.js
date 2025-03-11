@@ -7,21 +7,24 @@ export function useLocation() {
 
   function getLocation() {
     if (!('geolocation' in navigator)) {
-      error.value = 'Geolocation is not supported on this browser. You can enter city manually.'
-      return
+      error.value = 'Geolocation is not supported on this browser.'
+      return Promise.reject(error.value)
     }
-
     loading.value = true
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        coords.value = position.coords
-        loading.value = false
-      },
-      (err) => {
-        error.value = err.message
-        loading.value = false
-      }
-    )
+    return new Promise((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          coords.value = position.coords
+          loading.value = false
+          resolve(position)
+        },
+        (err) => {
+          error.value = err.message
+          loading.value = false
+          reject(err)
+        }
+      )
+    })
   }
 
   return { coords, error, loading, getLocation }
