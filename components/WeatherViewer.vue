@@ -188,6 +188,7 @@ const {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+  flex-flow: row wrap;
 }
 .city {
   font-size: 24px;
@@ -209,6 +210,7 @@ const {
   display: flex;
   gap: 40px;
   margin-bottom: 20px;
+  flex-flow: row wrap;
 }
 .temp-block {
   display: flex;
