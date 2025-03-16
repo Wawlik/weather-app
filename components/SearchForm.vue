@@ -11,6 +11,7 @@
         @focus="setFocus(true)"
         @blur="setFocus(false)"
       />
+      <!-- todo: rework as native or imported components -->
       <img
         @click="onSearch"
         class="icon-search"
@@ -19,6 +20,7 @@
       />
       <img
         @click="onGetLocation"
+        title="Get your current location"
         class="icon-location"
         src="~/assets/icons/location.svg"
         alt="Search icon"
@@ -151,8 +153,8 @@ li {
   transform: translateY(-50%);
   width: 24px;
   height: 24px;
-  cursor: pointer;
-  z-index: 2000;
+  z-index: 1;
+  cursor: help;
 }
 
 .search-wrapper .icon-search {

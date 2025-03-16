@@ -1,7 +1,11 @@
 <template>
   <div>
-    <div v-if="pending">Loading...</div>
-    <div v-else-if="error">Error: {{ error.message }}</div>
+    <div v-if="loading">
+      <p class="status-message">Loading...</p>
+    </div>
+    <div v-else-if="error">
+      <p class="status-message">Error: {{ error.message }}</p>
+    </div>
     <div v-else-if="weather" class="weather-container">
       <div class="header">
         <div>

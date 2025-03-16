@@ -54,4 +54,9 @@ button {
   max-width: 90vw;
   word-break: break-all;
 }
+
+body vercel-live-feedback {
+  /* the only proper use of important */
+  display: none!important;
+}
 </style>

@@ -6,7 +6,6 @@
 </template>
 
 <script setup>
-import { computed } from "vue";
 import SearchForm from "~/components/SearchForm.vue";
 import SavedCities from "~/components/SavedCities.vue";
 </script>
