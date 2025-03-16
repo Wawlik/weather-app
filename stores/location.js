@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { useNuxtApp } from '#app'
 
 export const useLocationStore = defineStore('location', {
     state: () => ({
@@ -13,25 +14,37 @@ export const useLocationStore = defineStore('location', {
         savedLocations: []
     }),
     actions: {
-        removeLocation() {
-            const name = `${this.location.city} ${this.location.country}`
-            const ind = this.savedLocations.findIndex(loc => loc.name === name)
-            if (~ind) {
-                this.savedLocations.splice(ind, 1);
+        removeLocation(nameLoc = null) {
+            const { $notify } = useNuxtApp()
+            const name = nameLoc || (`${this.location.city} ${this.location.country}`)
+            // todo: move to fn
+            const alreadySaved = this.savedLocations.some(
+                (item) =>
+                    item.name === name
+            )
+            if (alreadySaved) {
+                this.savedLocations = this.savedLocations.filter(loc => loc.name !== name)
+                $notify({ title: `${name} removed`, type: 'success' })
                 console.log("Removed!", { name })
+            } else {
+                $notify({ title: `${name} not found`, type: 'warn' })
             }
         },
         saveLocation() {
+            const { $notify } = useNuxtApp()
             const name = `${this.location.city} ${this.location.country}`;
             //todo: move logics to upper lvl
+            // todo: move to fn
             const alreadySaved = this.savedLocations.some(
                 (item) =>
                     item.name === name
             )
             if (!alreadySaved) {
                 this.savedLocations.push({ ...this.location, name });
+                $notify({ title: `${name} added`, type: 'success' })
                 console.log("Added!", { name })
             } else {
+                $notify({ title: `${name} already saved`, type: 'warn' })
                 console.warn('Already saved')
             }
         },
